@@ -11,7 +11,7 @@ angular.module('demo')
 				},
 				data: {
 					css: {
-						root: '/styles/demo/core.css'
+						root: 'styles/demo/core.css'
 					}
 				}
 			})
@@ -20,7 +20,7 @@ angular.module('demo')
 				url: '/home',
 				templateUrl: 'views/demo/pages/home.html',
 				data: {
-					css: '/styles/demo/pages/home.css'
+					css: 'styles/demo/pages/home.css'
 				}
 			})
 			.state('root.demo.about', {
@@ -29,7 +29,7 @@ angular.module('demo')
 				templateUrl: 'views/demo/pages/about.html',
 				data: {
 					css: {
-						about: '/styles/demo/pages/about.css'
+						about: 'styles/demo/pages/about.css'
 					}
 				}
 			})
@@ -37,7 +37,7 @@ angular.module('demo')
 				url: '/me',
 				templateUrl: 'views/demo/pages/about-me.html',
 				data: {
-					css: ['/styles/demo/pages/about-me.css']
+					css: ['styles/demo/pages/about-me.css']
 				}
 			})
 			.state('root.demo.about.the-project', {
@@ -46,7 +46,7 @@ angular.module('demo')
 				data: {
 					css: {
 						about: null,
-						aboutTheProject: '/styles/demo/pages/about-the-project.css'
+						aboutTheProject: 'styles/demo/pages/about-the-project.css'
 					}
 				}
 			})
@@ -54,7 +54,7 @@ angular.module('demo')
 				url: '/contact',
 				templateUrl: 'views/demo/pages/contact.html',
 				data: {
-					css: ['/styles/demo/pages/contact.css']
+					css: ['styles/demo/pages/contact.css']
 				}
 			})
 			.state('root.demo.contact.employee', {
@@ -68,9 +68,9 @@ angular.module('demo')
 				},
 				data: {
 					css: {
-						employeeCore: '/styles/demo/employees/core.css',
+						employeeCore: 'styles/demo/employees/core.css',
 						employee: ['$transition$', function($transition$) {
-							return '/styles/demo/employees/' + $transition$.params().employee + '.css'
+							return 'styles/demo/employees/' + $transition$.params().employee + '.css'
 						}]
 					}
 				}
@@ -108,7 +108,7 @@ angular.module('demo')
 			// if a theme has been previously set, remove it first
 			removeThemeStylesheet();
 
-			$scope.theme.path = '/styles/demo/themes/' + $scope.theme.model + '.css';
+			$scope.theme.path = 'styles/demo/themes/' + $scope.theme.model + '.css';
 
 			// inject the custom theme stylesheet and sae the reference
 			currentThemeStylesheetReference = hlUiRouterCss.injectStyleDefinitions($scope.theme.path);

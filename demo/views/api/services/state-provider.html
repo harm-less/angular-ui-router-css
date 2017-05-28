@@ -15,7 +15,7 @@
 		url: '/home',
 		templateUrl: 'views/pages/home.html',
 		data: {
-			css: '/styles/pages/home.css'
+			css: 'styles/pages/home.css'
 		}
 	})
 </pre>
@@ -32,7 +32,7 @@
 		templateUrl: 'views/pages/home.html',
 		data: {
 			css: {
-				home: '/styles/pages/home.css'
+				home: 'styles/pages/home.css'
 			}
 		}
 	}
@@ -47,7 +47,7 @@
 		templateUrl: 'views/pages/home-child.html',
 		data: {
 			css: {
-				home: '/styles/pages/home-child.css'
+				home: 'styles/pages/home-child.css'
 			}
 		}
 	}
@@ -79,7 +79,7 @@
 		data: {
 			css: {
 				home: {
-					url: '/styles/pages/home.css',
+					url: 'styles/pages/home.css',
 					colors: {
 						heading: '#333333';
 					}
@@ -97,7 +97,7 @@
 		url: '/child',
 		templateUrl: 'views/pages/home.html',
 		data: {
-			css: ['/styles/pages/home.css', '/styles/module/home.css']
+			css: ['styles/pages/home.css', 'styles/module/home.css']
 		}
 	}
 </pre>
@@ -116,7 +116,7 @@
 		templateUrl: 'views/pages/contact.html',
 		data: {
 			css: ['$transition$', function($transition$) {
-				return '/styles/demo/employees/' + $transition$.params().employee + '.css'
+				return 'styles/demo/employees/' + $transition$.params().employee + '.css'
 			}]
 		}
 	})
@@ -131,9 +131,9 @@
 		templateUrl: 'views/pages/contact.html',
 		data: {
 			css: {
-				employeeCore: '/styles/demo/employees/core.css',
+				employeeCore: 'styles/demo/employees/core.css',
 				employee: ['$transition$', function($transition$) {
-					return '/styles/demo/employees/' + $transition$.params().employee + '.css'
+					return 'styles/demo/employees/' + $transition$.params().employee + '.css'
 				}]
 			}
 		}
