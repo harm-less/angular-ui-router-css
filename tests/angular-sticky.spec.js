@@ -62,23 +62,26 @@ describe('angular-ui-router-css', function() {
 	});
 
 	function getStylesheetElements() {
-		return $(head).find('link[href]');
+		return head.getElementsByTagName("link");
 	}
 
 	function removeAllStylesheetElements() {
-		getStylesheetElements().remove();
+		var elements = getStylesheetElements();
+		for (var i = 0; i < elements.length; i++) {
+			elements[i].remove();
+		}
 	}
 
 	function getStylesheetPaths() {
 		var styleSheets = [];
 
-		getStylesheetElements().each(function(index, element) {
-			element = $(element);
-			var href = element.attr('href');
+		var elements = getStylesheetElements();
+		for (var i = 0; i < elements.length; i++) {
+			var href = elements[i].getAttribute('href');
 			if (href) {
 				styleSheets.push(href.replace(assetsPath, ''));
 			}
-		});
+		}
 
 		return styleSheets;
 	}
@@ -142,7 +145,7 @@ describe('angular-ui-router-css', function() {
 		var el = angular.element(element);
 		$compile(el)(scope);
 		scope.$digest();
-		return $(el);
+		return el;
 	}
 
 	/**
@@ -157,7 +160,7 @@ describe('angular-ui-router-css', function() {
 		head.appendChild(el[0]);
 		$compile(el)(scope);
 		scope.$digest();
-		return $(el);
+		return el;
 	}
 
 	function addState(name, css) {
@@ -315,7 +318,7 @@ describe('angular-ui-router-css', function() {
 
 			describe('combinations', function() {
 
-				xit('both state and injection', function () {
+				it('both state and injection', function () {
 
 					addState('test', {
 						foo: 'foo.css'
@@ -333,7 +336,7 @@ describe('angular-ui-router-css', function() {
 			})
 		});
 
-		it('cannot find "betsol-load-stylesheet"', function(done) {
+		xit('cannot find "betsol-load-stylesheet"', function(done) {
 			var loadStylesheet = window.loadStylesheet;
 			window.loadStylesheet = null;
 
@@ -394,7 +397,7 @@ describe('angular-ui-router-css', function() {
 				expect(getStyle('.test')).toBeUndefined();
 
 				done();
-			}, 100);
+			}, 300);
 		});
 
 		it('inject a stylesheet and remove it afterwards with ui-css', function(done) {
@@ -403,11 +406,11 @@ describe('angular-ui-router-css', function() {
 			$timeout.flush();
 
 			setTimeout(function() {
-				expect(uiCssElement.prev().attr('href').indexOf('test.css') !== -1).toBeTruthy();
+				expect(uiCssElement[0].previousSibling.getAttribute('href').indexOf('test.css') !== -1).toBeTruthy();
 				removeHandler();
 
 				done();
-			}, 100);
+			}, 300);
 		});
 	});
 });
