@@ -318,7 +318,7 @@ describe('angular-ui-router-css', function() {
 
 			describe('combinations', function() {
 
-				xit('both state and injection', function () {
+				it('both state and injection', function () {
 
 					addState('test', {
 						foo: 'foo.css'
@@ -336,11 +336,15 @@ describe('angular-ui-router-css', function() {
 			})
 		});
 
-		xit('cannot find "betsol-load-stylesheet"', function(done) {
+		it('cannot find "betsol-load-stylesheet"', function(done) {
+			var loadStylesheet = window.loadStylesheet;
 			window.loadStylesheet = null;
 
 			$state.defaultErrorHandler(function(error) {
 				expect(error.detail.message).toBe('Error "angular-ui-router-css": Package "betsol-load-stylesheet" must be loaded before you can use "angular-ui-router-css"');
+
+				// restore the "betsol-load-stylesheet" method
+				window.loadStylesheet = loadStylesheet;
 
 				done();
 			});
@@ -402,9 +406,6 @@ describe('angular-ui-router-css', function() {
 			$timeout.flush();
 
 			setTimeout(function() {
-				console.log(head);
-				console.log(uiCssElement[0]);
-				console.log(uiCssElement[0].previousSibling);
 				expect(uiCssElement[0].previousSibling.getAttribute('href').indexOf('test.css') !== -1).toBeTruthy();
 				removeHandler();
 
