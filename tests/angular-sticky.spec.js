@@ -333,7 +333,7 @@ describe('angular-ui-router-css', function() {
 			})
 		});
 
-		xit('cannot find "betsol-load-stylesheet"', function(done) {
+		it('cannot find "betsol-load-stylesheet"', function(done) {
 			var loadStylesheet = window.loadStylesheet;
 			window.loadStylesheet = null;
 
