@@ -2,7 +2,7 @@
  * angular-ui-router-css
  * https://github.com/harm-less/angular-ui-router-css
 
- * Version: 0.1.0 - 2017-05-27
+ * Version: 0.1.0 - 2017-05-30
  * License: MIT
  */
 (function (angular, window) {
@@ -10,6 +10,7 @@
 	'use strict';
 
 	// used for the Uglify Grunt task when compiling the build. It sets a global variable 'DEBUG' and sets it to false.
+	/* istanbul ignore next */
 	if (angular.isUndefined(window.DEBUG)) {
 		window.DEBUG = true;
 	}
@@ -28,8 +29,8 @@
 	var addedDefinitions = [];
 	var firstAddedStateDefinition;
 
-	function log(message) {
-		console.log('Log "angular-ui-router-css": ' + message);
+	function error(message) {
+		throw Error('Error "angular-ui-router-css": ' + message);
 	}
 
 	function isInt (value) {
@@ -60,18 +61,14 @@
 					url: definition
 				};
 			}
-			else if (angular.isObject(definition)) {
-				if (!definition.url) {
-					if (DEBUG) {
-						log('The definition needs to contain a URL: ' + JSON.stringify(definition));
-					}
-					return;
-				}
 
-				// Using specified ID as new object key.
-				if (definition.id) {
-					key = definition.id;
-				}
+			if (angular.isUndefined(definition.url)) {
+				error('The definition needs to contain a URL: ' + JSON.stringify(definition));
+			}
+
+			// Using specified ID as new object key.
+			if (definition.id) {
+				key = definition.id;
 			}
 
 			// Using custom unique resource ID instead of simple array index.
@@ -117,18 +114,15 @@
 	 */
 	function loadStyleDefinition(definition, options) {
 		var deferred = _$q.defer();
-		if (definition.url) {
-			if (DEBUG && !window.loadStylesheet) {
-				log('Package "betsol-load-stylesheet" must be loaded before you can use "angular-ui-router-css"');
-			}
 
-			definition.element = window.loadStylesheet(definition.url, function () {
-				deferred.resolve();
-			}, options);
+		if (DEBUG && !window.loadStylesheet) {
+			error('Package "betsol-load-stylesheet" must be loaded before you can use "angular-ui-router-css"');
 		}
-		else {
+
+		definition.element = window.loadStylesheet(definition.url, function () {
 			deferred.resolve();
-		}
+		}, options);
+
 		return deferred.promise;
 	}
 
@@ -180,13 +174,11 @@
 		angular.forEach(definitions, function (definition) {
 			if (isInjectable(definition)) {
 				definition = normalizeStyleDefinition(inject(definition));
-				console.log('gg', definition);
 			}
 			if (!definition.url) {
 				return;
 			}
 
-			console.log(definition.url);
 			var definitionPromise = loadStyleDefinition(definition, {
 				insertBefore: linkElementPlaceholder
 			});
@@ -228,7 +220,7 @@
 		}
 	}
 
-	angular.module('hl.ui.router.css', ['ui.router'])
+	angular.module('hl.css.ui.router', ['ui.router'])
 
 		.config(["$stateProvider", function ($stateProvider) {
 
@@ -249,7 +241,7 @@
 			_$q = $q;
 			_$injector = $injector;
 
-			$transitions.onBefore(null, function(transition) {
+			$transitions.onBefore({}, function(transition) {
 				transition.addResolvable({
 					token: '@css',
 					resolveFn: function() {
@@ -258,7 +250,7 @@
 				});
 			});
 
-			$transitions.onSuccess(null, function() {
+			$transitions.onSuccess({}, function() {
 				loadStylesForStateComplete();
 			});
 		}])
@@ -269,10 +261,10 @@
 				link: function(scope, element, attrs) {
 					if (DEBUG) {
 						if (linkElementPlaceholder) {
-							log('The directive "uiCss" can only be set once');
+							error('The directive "uiCss" can only be set once');
 						}
 						else if (document.getElementsByTagName('head')[0] !== element[0].parentNode) {
-							log('The directive "uiCss" must be placed in the "head" of your HTML');
+							error('The directive "uiCss" must be placed in the "head" of your HTML');
 						}
 					}
 
@@ -300,6 +292,19 @@
 					});
 				}
 			};
+
+			/* istanbul ignore next */
+			if (DEBUG) {
+
+				// necessary for resetting unit tests as those variables are not reset automatically
+				this.reset = function() {
+					linkElementPlaceholder = null;
+					nextResourceId = 1;
+					removeDefinitionQueue = [];
+					addedDefinitions = [];
+					firstAddedStateDefinition = null;
+				};
+			}
 		}]);
 
 })(angular, window);
