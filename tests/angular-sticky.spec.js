@@ -396,12 +396,15 @@ describe('angular-ui-router-css', function() {
 			}, 300);
 		});
 
-		xit('inject a stylesheet and remove it afterwards with ui-css', function(done) {
+		it('inject a stylesheet and remove it afterwards with ui-css', function(done) {
 			var uiCssElement = compileToHead('<link ui-css>');
 			var removeHandler = hlUiRouterCss.injectStyleDefinitions(assetsPath + 'test.css');
 			$timeout.flush();
 
 			setTimeout(function() {
+				console.log(head);
+				console.log(uiCssElement[0]);
+				console.log(uiCssElement[0].previousSibling);
 				expect(uiCssElement[0].previousSibling.getAttribute('href').indexOf('test.css') !== -1).toBeTruthy();
 				removeHandler();
 
