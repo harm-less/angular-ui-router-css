@@ -336,21 +336,18 @@ describe('angular-ui-router-css', function() {
 			})
 		});
 
-		it('cannot find "betsol-load-stylesheet"', function(done) {
+		it('cannot find "betsol-load-stylesheet"', function() {
 			var loadStylesheet = window.loadStylesheet;
 			window.loadStylesheet = null;
 
-			$state.defaultErrorHandler(function(error) {
-				expect(error.detail.message).toBe('Error "angular-ui-router-css": Package "betsol-load-stylesheet" must be loaded before you can use "angular-ui-router-css"');
-
-				// restore the "betsol-load-stylesheet" method
-				window.loadStylesheet = loadStylesheet;
-
-				done();
-			});
-
 			addState('test', 'foo.css');
-			stateGo('test');
+
+			expect(function() {
+				stateGo('test');
+			}).toThrow(new Error('Error "angular-ui-router-css": Package "betsol-load-stylesheet" must be loaded before you can use "angular-ui-router-css"'));
+
+			// restore the "betsol-load-stylesheet" method
+			window.loadStylesheet = loadStylesheet;
 		});
 	});
 
@@ -397,7 +394,7 @@ describe('angular-ui-router-css', function() {
 				expect(getStyle('.test')).toBeUndefined();
 
 				done();
-			}, 300);
+			}, 100);
 		});
 
 		it('inject a stylesheet and remove it afterwards with ui-css', function(done) {
@@ -410,7 +407,7 @@ describe('angular-ui-router-css', function() {
 				removeHandler();
 
 				done();
-			}, 300);
+			}, 100);
 		});
 	});
 });
