@@ -1,7 +1,7 @@
 {
   "author": "Harm van der Werf <harmvdwerf@gmail.com> {https://github.com/harm-less}",
   "name": "angular-ui-router-css",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "UI Router (1.*) extension to load route-specific, promised based CSS files",
   "homepage": "https://github.com/harm-less/angular-ui-router-css",
   "main": "dist/angular-ui-router-css.js",

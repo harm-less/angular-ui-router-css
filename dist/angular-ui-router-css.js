@@ -2,7 +2,7 @@
  * angular-ui-router-css
  * https://github.com/harm-less/angular-ui-router-css
 
- * Version: 0.1.0 - 2017-05-30
+ * Version: 0.1.1 - 2017-12-11
  * License: MIT
  */
 (function (angular, window) {
@@ -183,8 +183,10 @@
 				insertBefore: linkElementPlaceholder
 			});
 
-			// temporarily disable the stylesheet until the state has been fully resolved to give a smooth transition
-			definition.element.disabled = true;
+			definitionPromise.then(function() {
+				// temporarily disable the stylesheet until the state has been fully resolved to give a smooth transition
+				definition.element.disabled = true;
+			});
 
 			// add the stylesheet promise to the definition
 			definition.promise = definitionPromise;

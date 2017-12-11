@@ -175,7 +175,7 @@
 			var definitionPromise = loadStyleDefinition(definition, {
 				insertBefore: linkElementPlaceholder
 			});
-			
+
 			definitionPromise.then(function() {
 				// temporarily disable the stylesheet until the state has been fully resolved to give a smooth transition
 				definition.element.disabled = true;
