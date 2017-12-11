@@ -17,6 +17,7 @@ bower_components/
 npm-debug.log
 
 # test coverage files
+coverage/
 .coverage/
 
 # grunt temp files created by grunt-gh-pages and the demo assets
